@@ -66,8 +66,8 @@ purifier.wash()
 ### ch17 유틸리티 타입
 : 이미 정의 되어 있는 타입 구조를 변경하여 재사용하고 싶을 때 사용하는 타입
 
-- Pick 유틸리티 타입
-특정 타입의 속성을 뽑아서 새로운 타입을 만들 때 사용함.
+- Pick 유틸리티 타입  <br/>
+: 특정 타입의 속성을 뽑아서 새로운 타입을 만들 때 사용함.  <br/>
 
   Pick<대상 타입, '대상 타입의 속성 이름'>
   ```
@@ -91,8 +91,9 @@ purifier.wash()
   };
   ```
 
-- Omit 유틸리티 타입
-: 특정 타입에서 속성 몇 개를 제외한 나머지 속성으로 새로운 타입을 생성할 때 사요아는 유틸리티 타입
+- Omit 유틸리티 타입  <br/>
+: 특정 타입에서 속성 몇 개를 제외한 나머지 속성으로 새로운 타입을 생성할 때 사요아는 유틸리티 타입  <br/>
+
   Omit<대상 타입, '대상 타입의 속성 이름'>
   ```
    interface User {
@@ -102,6 +103,7 @@ purifier.wash()
    }
    type User = Omit<User, 'address'>;
   ```
+
   Omit<대상 타입, '대상 타입의 속성1 이름 ' | 대상 타입의 속성2 이름'>
   ```
   interface User {
@@ -112,44 +114,59 @@ purifier.wash()
   type User1 = Omit<User, 'address'>;
   ```
 
-- Partial 유틸리티 타입
-: 특정 타입의 모든 속성을 모두 옵션 속성으로 변환한 타입을 생성함.
-Partial<대상 타입>
-```
-interface Todo {
-  id: string;
-  title: string;
-}
-type OptionalTodo = Partial<Todo>;
-```
+- Partial 유틸리티 타입  <br/>
+    : 특정 타입의 모든 속성을 모두 옵션 속성으로 변환한 타입을 생성함.  <br/>
 
-- Exclude 유틸리티 타입
-: 유니언 타입을 구성하는 특정 타입을 제외할 때 사용
-Exclude<대상 유니언 타입, '제거할 타입 이름'>
-```
-type Languages = 'C' | 'Java' | 'Typescript' | 'React' | 'Vue';
-type TrueLanguages = Exclude<Languages, 'React'>;
-```
-Exclude<대상 유니언 타입, '제거할 타입 이름 1' | '제거할 타입 이름 2'>
-```
-type Languages = 'C' | 'Java' | 'Typescript' | 'React' | 'Vue';
-type WebLanguages = Exclude<Languages, 'C' | 'Java' | 'React'>;
-```
+    Partial<대상 타입>
+    ```
+    interface Todo {
+      id: string;
+      title: string;
+    }
+    type OptionalTodo = Partial<Todo>;
+    ```
 
-- Record 유틸리티 타입
-: 타입 1개를 속성의 키(key)로 받고 다른 타입 1개를 속성 값(value)으로 받아 객체 타입으로 변환
-Record<객체 속성의 키로 사용할 타입, 객체 속성의 값으로 사용할 타입>
-```
-type PhoneBook = Record<string, string>;
-const familyPhones: PhoneBook = {
- dad: '010-1234-5678',
- mom: '010-1111-2222'
-};
-const myPhone: PhoneBook = {
- me: '010-xxxx-1111',
-}
-```
+- Exclude 유틸리티 타입  <br/>
+: 유니언 타입을 구성하는 특정 타입을 제외할 때 사용 <br/>
+
+   Exclude<대상 유니언 타입, '제거할 타입 이름'>
+    ```
+    type Languages = 'C' | 'Java' | 'Typescript' | 'React' | 'Vue';
+    type TrueLanguages = Exclude<Languages, 'React'>;
+    ```
+
+   Exclude<대상 유니언 타입, '제거할 타입 이름 1' | '제거할 타입 이름 2'>
+    ```
+    type Languages = 'C' | 'Java' | 'Typescript' | 'React' | 'Vue';
+    type WebLanguages = Exclude<Languages, 'C' | 'Java' | 'React'>;
+    ```
+
+- Record 유틸리티 타입  <br/>
+: 타입 1개를 속성의 키(key)로 받고 다른 타입 1개를 속성 값(value)으로 받아 객체 타입으로 변환  <br/>
+
+    Record<객체 속성의 키로 사용할 타입, 객체 속성의 값으로 사용할 타입>
+     ```
+     type PhoneBook = Record<string, string>;
+     const familyPhones: PhoneBook = {
+      dad: '010-1234-5678',
+      mom: '010-1111-2222'
+     };
+     const myPhone: PhoneBook = {
+      me: '010-xxxx-1111',
+     }
+     ```
  
 ### ch18 맵드 타입
-: 이미 정의된 타입으로 새로운 타입을 생성할 때 사용하는 타입 문법
-- 
+#### 이미 정의된 타입으로 새로운 타입을 생성할 때 사용하는 타입 문법
+- in, keyof 키워드를 활용해서 사용.
+```
+inferface User {
+ name: string;
+ phone: string;
+}
+
+type UserPropCheck = {
+ [U in keyof User]: boolean;
+};
+```
+- boolean타입을 속성 이름으로 사용할 수 없으므로 객체 타입의 키 부분에 사용할 수 없음
